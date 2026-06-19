@@ -370,13 +370,16 @@ body {
 /* Right: hero image */
 .hero-right {
   flex: 1;
-  align-self: flex-end;
+  align-self: flex-start;
   display: flex;
-  align-items: flex-end;
+  align-items: flex-start;
   justify-content: flex-end;
   height: calc(100vh - 72px);
-  overflow: hidden;
   position: relative;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-right: 48px; /* breathing room from the right edge */
+  overflow: visible;
 }
 
 .hero-enter-right {
@@ -389,19 +392,137 @@ body {
   to { opacity: 1; transform: translateX(0); }
 }
 
-.hero-composite {
+.hero-composite-wrapper {
+  position: relative;
+  height: 115%;
+  max-height: calc(100vh);
   width: auto;
-  height: 100%;
-  max-height: 92vh;
-  object-fit: contain;
-  object-position: bottom right;
+  max-width: 640px;
+  margin-top: -48px;
+  margin-right: 0; /* padding-right on parent handles the spacing */
   animation: floatComposite 5s ease-in-out infinite;
-  display: block;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-end;
+  overflow: visible;
+}
+
+.hero-glass-bg {
+  position: absolute;
+  top: 15%;
+  bottom: 22%;
+  left: 12%;
+  right: 12%;
+  background: rgba(255, 255, 255, 0.4);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.08), 0 8px 16px rgba(0,0,0,0.04);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  z-index: 1;
+}
+
+.hero-glass-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.9;
+}
+
+.hero-composite-img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  z-index: 2;
+  filter: drop-shadow(-10px 20px 30px rgba(0,0,0,0.25));
 }
 
 @keyframes floatComposite {
   0%, 100% { transform: translateY(0px); }
   50%       { transform: translateY(-14px); }
+}
+
+/* ── New hero image — embedded & themed ── */
+.hero-new-img {
+  /* Fill the full height of the wrapper */
+  width: auto;
+  height: 100%;
+  max-height: 100vh;
+  object-fit: contain;
+  object-position: top right;
+  display: block;
+  transition: transform 0.6s var(--ease); /* Smooth zoom transition */
+
+  /* Feather bottom & sides into the cream background — no harsh rectangle edge */
+  -webkit-mask-image:
+    linear-gradient(to bottom, black 0%, black 65%, transparent 100%),
+    linear-gradient(to right, transparent 0%, black 5%, black 100%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    linear-gradient(to bottom, black 0%, black 65%, transparent 100%),
+    linear-gradient(to right, transparent 0%, black 5%, black 100%);
+  mask-composite: intersect;
+
+  /* Image background is already cream — just warm it slightly */
+  filter: saturate(1.05) brightness(1.01);
+}
+
+/* Hover effects: pause floating and zoom out slightly */
+.hero-composite-wrapper:hover {
+  animation-play-state: paused;
+}
+
+.hero-composite-wrapper:hover .hero-new-img {
+  transform: scale(0.97); /* Zoom out a little bit */
+}
+
+/* Gold ambient glow underneath — ties into brand color */
+.hero-img-glow {
+  position: absolute;
+  bottom: -30px;
+  left: 10%;
+  right: 10%;
+  height: 120px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(201,160,78,0.22) 0%, transparent 70%);
+  filter: blur(24px);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Small floating badge — anchors the image to the brand */
+.hero-img-badge {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(244, 244, 240, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(201,160,78,0.25);
+  border-radius: var(--radius-pill);
+  padding: 7px 18px;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--obsidian);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  z-index: 3;
+  animation: floatBadge 4s ease-in-out infinite 1s;
+}
+
+@keyframes floatBadge {
+  0%, 100% { transform: translateX(-50%) translateY(0); }
+  50%       { transform: translateX(-50%) translateY(-6px); }
 }
 
 /* ─────────────────────────────────────────
@@ -459,10 +580,14 @@ body {
 }
 
 .service-card {
-  background: var(--white);
-  border-radius: var(--radius-lg);
+  /* Reference Image Glassmorphism */
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 16px;
   padding: 36px 30px;
-  box-shadow: var(--shadow-md);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.05);
   transition: var(--transition);
   position: relative;
   overflow: hidden;
@@ -487,7 +612,8 @@ body {
 
 .service-card:hover {
   transform: translateY(-6px);
-  box-shadow: var(--shadow-lg);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.06), inset 0 1px 2px rgba(255, 255, 255, 1);
+  background: rgba(255, 255, 255, 0.65);
 }
 
 .service-icon-wrap {
@@ -517,6 +643,177 @@ body {
   font-size: 0.9rem;
   color: var(--text-body);
   line-height: 1.7;
+}
+
+/* ─────────────────────────────────────────
+   ABOUT SECTION
+───────────────────────────────────────── */
+.about-section {
+  padding: 120px 72px;
+  background: var(--obsidian);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle ambient light behind the section */
+.about-section::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 10% 50%, rgba(201,160,78,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse at 90% 20%, rgba(201,160,78,0.06) 0%, transparent 55%);
+  pointer-events: none;
+}
+
+/* ── Intro ── */
+.about-intro {
+  max-width: 760px;
+  margin: 0 auto 80px;
+  text-align: center;
+}
+
+.about-heading {
+  color: var(--white) !important;
+  margin-bottom: 24px;
+}
+
+.about-heading em {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.about-lead {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.8;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+/* ── Pillars ── */
+.about-pillars {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+  margin-bottom: 100px;
+}
+
+.about-pillar {
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: var(--radius-lg);
+  padding: 40px 32px;
+  position: relative;
+  transition: var(--transition);
+}
+
+.about-pillar:hover {
+  background: rgba(255,255,255,0.07);
+  border-color: rgba(201,160,78,0.3);
+  transform: translateY(-4px);
+}
+
+.about-pillar-num {
+  font-family: 'Playfair Display', serif;
+  font-size: 3rem;
+  font-weight: 900;
+  color: rgba(201,160,78,0.2);
+  line-height: 1;
+  display: block;
+  margin-bottom: 20px;
+  transition: color 0.3s;
+}
+
+.about-pillar:hover .about-pillar-num {
+  color: rgba(201,160,78,0.5);
+}
+
+.about-pillar-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 14px;
+}
+
+.about-pillar-body {
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.75;
+}
+
+/* ── Milestones Timeline ── */
+.about-milestones {
+  position: relative;
+}
+
+.milestones-track {
+  display: flex;
+  gap: 0;
+  margin-top: 48px;
+  position: relative;
+}
+
+/* Horizontal connecting line */
+.milestones-track::before {
+  content: '';
+  position: absolute;
+  top: 36px; /* center of dot */
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,160,78,0.3) 15%, rgba(201,160,78,0.3) 85%, transparent);
+}
+
+.milestone-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 0 16px;
+}
+
+.milestone-year {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+}
+
+.milestone-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--gold);
+  border: 3px solid var(--obsidian);
+  box-shadow: 0 0 0 2px var(--gold);
+  flex-shrink: 0;
+  margin-bottom: 20px;
+  transition: transform 0.3s;
+}
+
+.milestone-item:hover .milestone-dot {
+  transform: scale(1.4);
+}
+
+.milestone-content strong {
+  display: block;
+  font-family: 'Playfair Display', serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 8px;
+}
+
+.milestone-content p {
+  font-size: 0.82rem;
+  color: rgba(255,255,255,0.45);
+  line-height: 1.6;
 }
 
 /* ─────────────────────────────────────────

@@ -77,6 +77,7 @@ export default function App() {
         <ul className="nav-links">
           <li><a href="#home" className="active">Home</a></li>
           <li><a href="#services">Services</a></li>
+          <li><a href="#about">About</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
 
@@ -120,11 +121,14 @@ export default function App() {
 
         {/* Right: composite hero image — slides in from right */}
         <div className="hero-right hero-enter-right">
-          <img
-            src="/hero_composite.png"
-            alt="Hope Trans truck and highway"
-            className="hero-composite"
-          />
+          <div className="hero-composite-wrapper">
+            <img
+              src="/final_truck.jfif"
+              alt="Hope Trans Inc. — Freight across Canada"
+              className="hero-new-img"
+            />
+            <div className="hero-img-glow" />
+          </div>
         </div>
       </section>
 
@@ -148,6 +152,76 @@ export default function App() {
             </div>
           ))}
         </div>
+      </section>
+
+      {/* ── ABOUT ── */}
+      <section id="about" className="about-section">
+
+        {/* Top: who we are */}
+        <div className="about-intro reveal-on-scroll">
+          <p className="section-eyebrow">Our Story</p>
+          <h2 className="section-heading about-heading">
+            More Than a Trucking Company.<br />
+            <em>We're Your Freight Partner.</em>
+          </h2>
+          <p className="about-lead">
+            Founded in Mississauga, Ontario, Hope Trans Inc. was built on a single belief:
+            that every shipment matters. From a small regional carrier to a trusted
+            pan-Canadian logistics partner, we have grown by putting our clients'
+            supply chains first — every mile, every load, every time.
+          </p>
+        </div>
+
+        {/* Middle: pillars grid */}
+        <div className="about-pillars">
+          {[
+            {
+              num: '01',
+              title: 'Our Mission',
+              body: 'To provide businesses across Canada with safe, efficient, and reliable freight transportation — delivered on time, every time, without compromise.',
+            },
+            {
+              num: '02',
+              title: 'Our Vision',
+              body: 'To be the most trusted name in Canadian trucking by setting the highest standard for driver professionalism, cargo security, and client transparency.',
+            },
+            {
+              num: '03',
+              title: 'Our Values',
+              body: 'Integrity in every interaction. Accountability on every route. Safety above all. We hold ourselves to the same standard we promise our clients.',
+            },
+          ].map((p, i) => (
+            <div key={p.num} className={`about-pillar reveal-on-scroll delay-${i}`}>
+              <span className="about-pillar-num">{p.num}</span>
+              <h3 className="about-pillar-title">{p.title}</h3>
+              <p className="about-pillar-body">{p.body}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Bottom: milestones timeline */}
+        <div className="about-milestones">
+          <p className="section-eyebrow reveal-on-scroll" style={{textAlign:'center'}}>Our Journey</p>
+          <div className="milestones-track">
+            {[
+              { year: '2010', label: 'Founded', detail: 'Hope Trans Inc. launched operations out of Mississauga with a two-truck fleet.' },
+              { year: '2014', label: 'Pan-Canadian', detail: 'Expanded service coverage to 7 provinces with a growing team of certified drivers.' },
+              { year: '2018', label: 'Reefer Fleet', detail: 'Launched a dedicated temperature-controlled division for perishables and pharma.' },
+              { year: '2022', label: '100+ Trucks', detail: 'Surpassed 100 active units and introduced real-time cargo tracking technology.' },
+              { year: 'Today', label: 'Your Partner', detail: '24/7 dispatch, fully insured loads, and a 99% on-time delivery record — and growing.' },
+            ].map((m, i) => (
+              <div key={m.year} className={`milestone-item reveal-on-scroll delay-${i % 3}`}>
+                <div className="milestone-year">{m.year}</div>
+                <div className="milestone-dot" />
+                <div className="milestone-content">
+                  <strong>{m.label}</strong>
+                  <p>{m.detail}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </section>
 
       {/* ── WHY US ── */}
@@ -190,11 +264,34 @@ export default function App() {
             <input type="hidden" name="redirect" value="https://web3forms.com/success" />
             
             <div className="form-row">
-              <input type="text" name="name" placeholder="Your Name" required className="form-input" />
-              <input type="email" name="email" placeholder="Your Email" required className="form-input" />
+              <input 
+                type="text" 
+                name="name" 
+                placeholder="Your Name" 
+                required 
+                className="form-input" 
+                pattern="[A-Za-z\s\-]+" 
+                title="Please enter a valid name (letters and spaces only)"
+              />
+              <input 
+                type="email" 
+                name="email" 
+                placeholder="Your Email" 
+                required 
+                className="form-input" 
+                title="Please enter a valid email address"
+              />
             </div>
             <div className="form-row">
-              <input type="tel" name="phone" placeholder="Phone Number" required className="form-input" />
+              <input 
+                type="tel" 
+                name="phone" 
+                placeholder="Phone Number" 
+                required 
+                className="form-input" 
+                pattern="[\d\s\-\+\(\)]+" 
+                title="Please enter a valid phone number (numbers and symbols only)"
+              />
               <select name="freight_type" required className="form-select">
                 <option value="">Select Freight Type</option>
                 <option value="FTL">Full Truckload (FTL)</option>
