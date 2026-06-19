@@ -241,8 +241,16 @@ export default function App() {
       {/* ── WHY US ── */}
       <section id="why-us" className="why-section">
         <div className="why-img-wrap reveal-on-scroll">
-          <img src="/highway_bg.png" alt="Hope Trans highway" className="why-img" />
-          <div className="why-img-overlay" />
+          <div className="why-img-inner">
+            <div className="why-img-front">
+              <img src="/highway_bg.png" alt="Hope Trans highway" className="why-img" />
+              <div className="why-img-overlay" />
+            </div>
+            <div className="why-img-back">
+              <img src="/truck_fleet.png" alt="Hope Trans truck fleet" className="why-img" />
+              <div className="why-img-overlay" />
+            </div>
+          </div>
         </div>
         <div className="why-content">
           <p className="section-eyebrow reveal-on-scroll">Why Choose Us</p>
