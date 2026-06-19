@@ -61,6 +61,9 @@ export default function App() {
   const [stat1, ref1] = useCountUp(99, 1600, '%');
   const [stat3, ref3] = useCountUp(100, 1800, '+');
 
+  // Mobile menu state
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   return (
     <div className="page-wrapper">
 
@@ -74,14 +77,25 @@ export default function App() {
           </div>
         </a>
 
-        <ul className="nav-links">
-          <li><a href="#home" className="active">Home</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#about">About</a></li>
-          <li><a href="#contact">Contact</a></li>
+        <ul className={`nav-links ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+          <li><a href="#home" className="active" onClick={() => setIsMobileMenuOpen(false)}>Home</a></li>
+          <li><a href="#services" onClick={() => setIsMobileMenuOpen(false)}>Services</a></li>
+          <li><a href="#about" onClick={() => setIsMobileMenuOpen(false)}>About</a></li>
+          <li><a href="#contact" onClick={() => setIsMobileMenuOpen(false)}>Contact</a></li>
         </ul>
 
-        <a href="#contact" className="nav-cta-btn">Get a Quote</a>
+        <div className="nav-actions">
+          <a href="#contact" className="nav-cta-btn">Get a Quote</a>
+          <button 
+            className={`mobile-menu-btn ${isMobileMenuOpen ? 'open' : ''}`}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
+        </div>
       </nav>
 
       {/* ── HERO ── */}
