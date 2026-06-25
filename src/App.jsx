@@ -281,7 +281,7 @@ export default function App() {
           <p>Get a free quote in under 2 minutes. No commitment needed.</p>
           
           <form action="https://api.web3forms.com/submit" method="POST" className="quote-form">
-            <input type="hidden" name="access_key" value="69a1b0c9-0270-43ad-bc61-3a79a64a34c3" />
+            <input type="hidden" name="access_key" value={import.meta.env.VITE_FORM_ACCESS_KEY} />
             <input type="hidden" name="subject" value="New Freight Quote Request from Website" />
             <input type="hidden" name="redirect" value="https://web3forms.com/success" />
             
@@ -355,7 +355,7 @@ export default function App() {
         </div>
         <div className="footer-col">
           <h4>Contact</h4>
-          <a href="tel:+11234567890" className="footer-contact-link">📞 (123) 456-7890</a>
+          <a href="tel:+19057959292" className="footer-contact-link">📞 +1 905 795 9292</a>
           <a href="mailto:info@hopetransinc.com" className="footer-contact-link">✉️ info@hopetransinc.com</a>
           <a href="https://maps.google.com/?q=Mississauga, Ontario, Canada" target="_blank" rel="noopener noreferrer" className="footer-contact-link">📍 Mississauga, Ontario, Canada</a>
         </div>
