@@ -283,7 +283,7 @@ export default function App() {
           <form action="https://api.web3forms.com/submit" method="POST" className="quote-form">
             <input type="hidden" name="access_key" value={import.meta.env.VITE_FORM_ACCESS_KEY} />
             <input type="hidden" name="subject" value="New Freight Quote Request from Website" />
-            <input type="hidden" name="redirect" value="https://web3forms.com/success" />
+            <input type="hidden" name="redirect" value="https://hopetransinc.com/thank-you.html" />
             
             <div className="form-row">
               <input 
